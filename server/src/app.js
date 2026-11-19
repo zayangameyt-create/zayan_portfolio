@@ -10,6 +10,7 @@ import contactRouter from './routes/contactRoutes.js';
 const app = express();
 
 app.disable('x-powered-by');
+app.set('trust proxy', 1);
 app.use(helmet());
 app.use(cors({
   origin: env.FRONTEND_ORIGIN,
