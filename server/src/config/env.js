@@ -18,6 +18,8 @@ const envSchema = z.object({
   SUPPORT_EMAIL: z.string().trim()
     .transform(normalizeEmailList)
     .pipe(z.array(z.string().email('SUPPORT_EMAIL must contain valid email addresses')).min(1)),
+  CONTACT_TO_EMAIL: z.string().trim().optional()
+    .transform((value) => value ? normalizeEmailList(value) : undefined),
   SMTP_HOST: z.string().trim().optional(),
   SMTP_PORT: z.coerce.number().int().min(1).max(65535).optional(),
   SMTP_SECURE: z.enum(['true', 'false']).default('false').transform((value) => value === 'true'),
@@ -25,6 +27,16 @@ const envSchema = z.object({
   SMTP_PASS: z.string().optional(),
   SMTP_FROM: z.string().trim().optional(),
 }).superRefine((value, context) => {
+  value.CONTACT_TO_EMAIL?.forEach((address) => {
+    if (!z.string().email().safeParse(address).success) {
+      context.addIssue({
+        code: 'custom',
+        path: ['CONTACT_TO_EMAIL'],
+        message: 'CONTACT_TO_EMAIL must contain valid email addresses',
+      });
+    }
+  });
+
   if (value.EMAIL_PROVIDER === 'resend' && !value.RESEND_API_KEY) {
     context.addIssue({
       code: 'custom',
@@ -61,4 +73,7 @@ if (!result.success) {
   throw new Error(`Invalid server configuration:\n${issues.join('\n')}`);
 }
 
-export const env = result.data;
+export const env = {
+  ...result.data,
+  CONTACT_TO_EMAIL: result.data.CONTACT_TO_EMAIL ?? result.data.SUPPORT_EMAIL,
+};

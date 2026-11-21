@@ -27,7 +27,7 @@ function getAnswer(message) {
 
   if (/service|development|design|testing|marketing|content|support|cloud/.test(query)) {
     return {
-      text: 'Services are organized into Development, Design, Testing, Marketing, Content, and Support. Open Our Services to browse the full list.',
+      text: 'Sanjeev offers web development, mobile app development, UI/UX design, and backend development.',
       link: '#services',
       linkText: 'Explore services',
     };
@@ -35,9 +35,9 @@ function getAnswer(message) {
 
   if (/skill|technology|tech stack|react|javascript|python|mongodb|mysql|node/.test(query)) {
     return {
-      text: 'The portfolio covers frontend, backend, databases, programming languages, and developer tools. The full skills list is in About Me.',
-      link: '#about',
-      linkText: 'View skills',
+      text: 'The tech stack includes HTML5, CSS3, JavaScript, React, Node.js, Express, MongoDB, and Python.',
+      link: '#skills',
+      linkText: 'View tech stack',
     };
   }
 

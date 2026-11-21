@@ -1,74 +1,28 @@
-import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
 import services from '../data/services.js';
+import Reveal from './Reveal.jsx';
+import SectionHeading from './SectionHeading.jsx';
 
 function ServicesSection() {
-  const [activeServiceId, setActiveServiceId] = useState(services[0].id);
-  const activeService = services.find((service) => service.id === activeServiceId);
-
-  const toggleService = (serviceId) => {
-    setActiveServiceId((currentId) => currentId === serviceId ? null : serviceId);
-  };
-
   return (
-    <section id="services" className="services">
-      <div className="section-title"><h1>Our Services</h1></div>
-
-      <div className="services-container" role="group" aria-label="Service categories">
-        {services.map(({ id, number, title, description, icon: Icon }) => {
-          const isActive = activeServiceId === id;
-
-          return (
-            <button
-              className={`service-category${isActive ? ' active' : ''}`}
-              id={`service-category-${id}`}
-              type="button"
-              key={id}
-              aria-expanded={isActive}
-              aria-controls={activeServiceId ? 'service-details' : undefined}
-              onClick={() => toggleService(id)}
-            >
-              <span className="service-category-top">
-                <span className="service-number">{number}</span>
-                <Icon className="service-icon" aria-hidden="true" />
-              </span>
-              <span className="service-category-title">{title}</span>
-              <span className="service-category-description">{description}</span>
-              <span className="service-category-action">
-                {isActive ? 'Hide services' : 'Explore services'}
-                <ChevronDown className={isActive ? 'chevron expanded' : 'chevron'} size={17} aria-hidden="true" />
-              </span>
-            </button>
-          );
-        })}
-      </div>
-
-      <div id="service-details" hidden={!activeService}>
-        {activeService && (
-          <div
-            className="service-details"
-            role="region"
-            aria-labelledby={`service-category-${activeService.id}`}
-          >
-          <div className="service-details-heading">
-            <div>
-              <p className="service-details-kicker">{activeService.number} / SERVICE DETAILS</p>
-              <h2>{activeService.title}</h2>
-            </div>
-            <p>{activeService.description}</p>
-          </div>
-          <div className="service-groups">
-            {activeService.groups.map((group) => (
-              <article className="service-group" key={group.title}>
-                <h3>{group.title}</h3>
-                <ul>
-                  {group.items.map((item) => <li key={item}>{item}</li>)}
-                </ul>
-              </article>
-            ))}
-          </div>
-          </div>
-        )}
+    <section id="services" className="section-wrap section-services">
+      <div className="content-width">
+        <Reveal>
+          <SectionHeading
+            eyebrow="Services"
+            title="What I offer"
+            description="A considered approach from the first screen to the systems behind it."
+          />
+        </Reveal>
+        <div className="services-grid">
+          {services.map(({ title, description, icon: Icon }, index) => (
+            <Reveal className="service-card" key={title} delay={index * 0.055}>
+              <span className="service-icon"><Icon size={22} strokeWidth={1.7} aria-hidden="true" /></span>
+              <span className="service-number">0{index + 1}</span>
+              <h3>{title}</h3>
+              <p>{description}</p>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );

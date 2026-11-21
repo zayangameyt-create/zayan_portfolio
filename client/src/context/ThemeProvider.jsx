@@ -9,7 +9,7 @@ function getInitialTheme() {
     // Storage can be unavailable in private or restricted browser contexts.
   }
 
-  return window.matchMedia?.('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  return 'light';
 }
 
 function ThemeProvider({ children }) {
@@ -19,7 +19,7 @@ function ThemeProvider({ children }) {
     document.documentElement.dataset.theme = theme;
     document.querySelector('meta[name="theme-color"]')?.setAttribute(
       'content',
-      theme === 'light' ? '#f7f4f1' : '#161513',
+      theme === 'light' ? '#ffffff' : '#15141a',
     );
     try {
       window.localStorage.setItem('portfolio-theme', theme);

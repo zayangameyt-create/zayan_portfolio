@@ -21,7 +21,7 @@ export async function sendContactNotification(contact) {
   const safeEmail = escapeHtml(contact.email);
   const safeMessage = escapeHtml(contact.message);
   const emailContent = {
-    to: env.SUPPORT_EMAIL,
+    to: env.CONTACT_TO_EMAIL,
     replyTo: contact.email,
     subject: 'New portfolio contact message',
     text: `Name: ${contact.name}\nEmail: ${contact.email}\n\n${contact.message}`,
