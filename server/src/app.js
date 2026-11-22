@@ -17,14 +17,15 @@ app.set('trust proxy', 1);
 app.use(helmet());
 
 // CORS configuration
-const allowedOrigins = env.FRONTEND_ORIGIN
-  .split(',')
-  .map((origin) => origin.trim())
-  .filter(Boolean);
+const allowedOrigins = new Set([
+  ...env.FRONTEND_ORIGIN.split(',').map((origin) => origin.trim()).filter(Boolean),
+  'https://zayanithub.site',
+  'https://www.zayanithub.site',
+]);
 
 app.use(cors({
   origin(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || allowedOrigins.has(origin)) {
       callback(null, true);
       return;
     }
