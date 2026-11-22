@@ -14,6 +14,13 @@ Requirements: Node.js 20.19 or newer and MongoDB.
 
 For a deployed frontend and API on separate origins, set `VITE_API_URL` in the frontend build environment to the API origin (without a trailing slash), and set `FRONTEND_ORIGIN` on the API to the exact frontend origin. For a same-origin deployment, route `/api` to the API and leave `VITE_API_URL` empty.
 
+For the Zayan IT Hub deployment, use:
+
+- Frontend: `https://zayanithub.site`
+- API: `https://zayan-portfolio-0e4g.onrender.com`
+- Vercel `VITE_API_URL`: `https://zayan-portfolio-0e4g.onrender.com`
+- Render `FRONTEND_ORIGIN`: `https://zayanithub.site,https://www.zayanithub.site`
+
 ## Configuration
 
 `server/.env.example` documents the server settings:

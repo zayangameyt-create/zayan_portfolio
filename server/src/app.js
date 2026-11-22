@@ -17,8 +17,19 @@ app.set('trust proxy', 1);
 app.use(helmet());
 
 // CORS configuration
+const allowedOrigins = env.FRONTEND_ORIGIN
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 app.use(cors({
-  origin: env.FRONTEND_ORIGIN,
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+    callback(new Error('Origin is not allowed by CORS'));
+  },
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
 }));

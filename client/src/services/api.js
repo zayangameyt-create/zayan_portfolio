@@ -1,7 +1,20 @@
 const productionApiUrl = import.meta.env.PROD
-  ? 'https://zayan-portfolio-mern.onrender.com'
+  ? 'https://zayan-portfolio-0e4g.onrender.com'
   : '';
-const apiBaseUrl = (import.meta.env.VITE_API_URL || productionApiUrl).replace(/\/$/, '');
+export const apiBaseUrl = (import.meta.env.VITE_API_URL || productionApiUrl).replace(/\/$/, '');
+
+export async function wakeBackend() {
+  if (!apiBaseUrl) return;
+
+  try {
+    await fetch(`${apiBaseUrl}/api/health`, {
+      method: 'GET',
+      cache: 'no-store',
+    });
+  } catch {
+    // The contact request will still retry the API after the frontend loads.
+  }
+}
 
 export async function submitContactForm(formData) {
   const response = await fetch(`${apiBaseUrl}/api/contact`, {

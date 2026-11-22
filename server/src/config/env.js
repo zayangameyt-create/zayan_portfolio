@@ -10,7 +10,7 @@ function normalizeEmailList(value) {
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().min(1).max(65535).default(5000),
-  FRONTEND_ORIGIN: z.string().url().default('http://localhost:5173'),
+  FRONTEND_ORIGIN: z.string().min(1).default('http://localhost:5173,https://zayanithub.site,https://www.zayanithub.site'),
   MONGODB_URI: z.string().min(1, 'MONGODB_URI is required'),
   EMAIL_PROVIDER: z.enum(['resend', 'smtp']).default('resend'),
   RESEND_API_KEY: z.string().trim().optional(),

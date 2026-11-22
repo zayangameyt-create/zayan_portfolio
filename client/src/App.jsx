@@ -1,14 +1,19 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { LazyMotion, domAnimation } from 'framer-motion';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import ThemeProvider from './context/ThemeProvider.jsx';
 import { useTheme } from './context/ThemeContext.js';
+import { wakeBackend } from './services/api.js';
 
 const HomePage = lazy(() => import('./pages/HomePage.jsx'));
 
 function AppContent() {
   const { theme } = useTheme();
+
+  useEffect(() => {
+    void wakeBackend();
+  }, []);
 
   return (
     <LazyMotion features={domAnimation}>
